@@ -1,7 +1,6 @@
-// outputNode.js
-
 import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Position } from 'reactflow';
+import { BaseNode } from './BaseNode';
 
 export const OutputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
@@ -16,32 +15,36 @@ export const OutputNode = ({ id, data }) => {
   };
 
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-value`}
-      />
-      <div>
-        <span>Output</span>
-      </div>
-      <div>
-        <label>
-          Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
+    <BaseNode
+      id={id}
+      type="Output"
+      handles={[{ type: 'target', position: Position.Left, id: 'value' }]}
+    >
+      <div className="flex flex-col gap-2">
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          Name
         </label>
-        <label>
-          Type:
-          <select value={outputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">Image</option>
-          </select>
-        </label>
+        <input 
+          type="text" 
+          value={currName} 
+          onChange={handleNameChange} 
+          className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
+        />
       </div>
-    </div>
+
+      <div className="flex flex-col gap-2">
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          Type
+        </label>
+        <select 
+          value={outputType} 
+          onChange={handleTypeChange}
+          className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
+        >
+          <option value="Text">Text</option>
+          <option value="Image">Image</option>
+        </select>
+      </div>
+    </BaseNode>
   );
-}
+};

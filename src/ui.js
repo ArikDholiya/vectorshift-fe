@@ -1,7 +1,3 @@
-// ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
-
 import { useState, useRef, useCallback } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
@@ -10,6 +6,11 @@ import { InputNode } from './nodes/inputNode';
 import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
+import { MathNode } from './nodes/mathNode';
+import { ApiNode } from './nodes/apiNode';
+import { ConditionNode } from './nodes/conditionNode';
+import { TransformNode } from './nodes/transformNode';
+import { TimerNode } from './nodes/timerNode';
 
 import 'reactflow/dist/style.css';
 
@@ -20,6 +21,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  math: MathNode,
+  api: ApiNode,
+  condition: ConditionNode,
+  transform: TransformNode,
+  timer: TimerNode,
 };
 
 const selector = (state) => ({
@@ -89,8 +95,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} className="w-full h-[80vh] border-b border-slate-200">
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -105,11 +110,14 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#aaa" gap={gridSize} />
+                <Background color="#cbd5e1" gap={gridSize} size={2} />
                 <Controls />
-                <MiniMap />
+                <MiniMap 
+                   nodeStrokeColor={(n) => '#8b5cf6'}
+                   nodeColor={(n) => '#fff'}
+                   nodeBorderRadius={8}
+                />
             </ReactFlow>
         </div>
-        </>
     )
 }
